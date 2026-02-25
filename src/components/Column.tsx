@@ -10,7 +10,7 @@ export const Column = ({ column, setColumns }: Props) => {
   const [newCardTitle, setNewCardTitle] = useState("");
   const [showInput, setShowInput] = useState(false);
 
-  // handle the coulmn
+  // handle the coulmn add to card
   const handleAddCard = () => {
     if (!newCardTitle.trim()) return;
 
@@ -32,7 +32,19 @@ export const Column = ({ column, setColumns }: Props) => {
     setShowInput(false);
   };
 
-
+  // delete from card
+  const handleDeleteCard = (cardId: string) => {
+    setColumns((prev) =>
+      prev.map((col) =>
+        col.id === column.id
+          ? {
+              ...col,
+              cards: col.cards.filter((card) => card.id !== cardId),
+            }
+          : col,
+      ),
+    );
+  };
 
   return (
     <div className="column">
@@ -62,7 +74,9 @@ export const Column = ({ column, setColumns }: Props) => {
       {column.cards.map((card) => (
         <div key={card.id} className="card">
           <p>{card.title}</p>
-          <span className="delete">🗑</span>
+          <span className="delete" onClick={() => handleDeleteCard(card.id)}>
+            🗑
+          </span>
         </div>
       ))}
     </div>
