@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { ColumnType } from "../types/kanban";
+import { ColumnType } from "../types/temp";
 import { Card } from "./Card";
 import { useDroppable } from "@dnd-kit/core";
 

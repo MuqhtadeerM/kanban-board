@@ -133,3 +133,45 @@ body {
   background: transparent;
   cursor: pointer;
 }
+
+.card {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #ffd43b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  gap: 8px;
+}
+
+.card-title {
+  flex: 1;
+  cursor: pointer;
+}
+
+.card-input {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.card-actions button {
+  border: none;
+  background: #f1f3f5;
+  border-radius: 6px;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card-actions button:hover {
+  background: #e9ecef;
+}

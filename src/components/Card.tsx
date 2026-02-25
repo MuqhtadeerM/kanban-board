@@ -27,46 +27,51 @@ export const Card = ({ id, title, onDelete, onUpdate }: Props) => {
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="card"
-      {...(!isEditing ? listeners : {})}
-      {...(!isEditing ? attributes : {})}
-    >
+    <div ref={setNodeRef} style={style} className="card">
       {isEditing ? (
-        <>
-          <input
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            autoFocus
-          />
-          <button onClick={handleSave}>Save</button>
-        </>
+        <input
+          className="card-input"
+          value={editTitle}
+          onChange={(e) => setEditTitle(e.target.value)}
+          onBlur={handleSave}
+          autoFocus
+          onClick={(e) => e.stopPropagation()}
+        />
       ) : (
-        <>
-          <p>{title}</p>
-          <div className="card-actions">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsEditing(true);
-              }}
-            >
-              ✏️
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(id);
-              }}
-            >
-              🗑
-            </button>
-          </div>
-        </>
+        <p
+          className="card-title"
+          {...(!isEditing ? listeners : {})}
+          {...(!isEditing ? attributes : {})}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditing(true);
+          }}
+        >
+          {title}
+        </p>
       )}
+
+      <div className="card-actions">
+        <button
+          className="edit-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditing(true);
+          }}
+        >
+          ✏️
+        </button>
+
+        <button
+          className="delete-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(id);
+          }}
+        >
+          🗑
+        </button>
+      </div>
     </div>
   );
 };

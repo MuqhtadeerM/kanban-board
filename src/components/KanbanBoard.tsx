@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ColumnType } from "../types/kanban";
+import { ColumnType } from "../types/temp";
 import { initialData } from "../data/mockdata";
 import { Column } from "./Column";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
