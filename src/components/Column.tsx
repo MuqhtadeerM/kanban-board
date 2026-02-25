@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { ColumnType } from "../types/kanban";
+import { Card } from "./Card";
+import { useDroppable } from "@dnd-kit/core";
 
 type Props = {
   column: ColumnType;
@@ -10,7 +12,11 @@ export const Column = ({ column, setColumns }: Props) => {
   const [newCardTitle, setNewCardTitle] = useState("");
   const [showInput, setShowInput] = useState(false);
 
-  // handle the coulmn add to card
+  const { setNodeRef } = useDroppable({
+    id: column.id,
+  });
+
+  // Add card
   const handleAddCard = () => {
     if (!newCardTitle.trim()) return;
 
@@ -32,7 +38,7 @@ export const Column = ({ column, setColumns }: Props) => {
     setShowInput(false);
   };
 
-  // delete from card
+  // Delete card
   const handleDeleteCard = (cardId: string) => {
     setColumns((prev) =>
       prev.map((col) =>
@@ -46,38 +52,57 @@ export const Column = ({ column, setColumns }: Props) => {
     );
   };
 
+  // update card
+  const handleUpdateCard = (cardId: string, newTitle: string) => {
+    setColumns((prev) =>
+      prev.map((col) =>
+        col.id === column.id
+          ? {
+              ...col,
+              cards: col.cards.map((card) =>
+                card.id === cardId ? { ...card, title: newTitle } : card,
+              ),
+            }
+          : col,
+      ),
+    );
+  };
+
   return (
-    <div className="column">
+    <div ref={setNodeRef} className="column">
+      {/* Header */}
       <div className={`column-header ${column.color}`}>
         <span>
           {column.title}
           <span className="count">{column.cards.length}</span>
         </span>
-        {showInput ? (
-          <div className="dd-card-form">
-            <input
-              value={newCardTitle}
-              onChange={(e) => setNewCardTitle(e.target.value)}
-              placeholder="Enter card title"
-            />
-            <button onClick={handleAddCard}>Add</button>
-          </div>
-        ) : (
-          <button className="add-card" onClick={() => setShowInput(true)}>
-            + Add Card
-          </button>
-        )}
       </div>
 
-      <button className="add-card">+ Add Card</button>
-
-      {column.cards.map((card) => (
-        <div key={card.id} className="card">
-          <p>{card.title}</p>
-          <span className="delete" onClick={() => handleDeleteCard(card.id)}>
-            🗑
-          </span>
+      {/* Add Card Section */}
+      {showInput ? (
+        <div className="add-card-form">
+          <input
+            value={newCardTitle}
+            onChange={(e) => setNewCardTitle(e.target.value)}
+            placeholder="Enter card title"
+          />
+          <button onClick={handleAddCard}>Add</button>
         </div>
+      ) : (
+        <button className="add-card" onClick={() => setShowInput(true)}>
+          + Add Card
+        </button>
+      )}
+
+      {/* Cards */}
+      {column.cards.map((card) => (
+        <Card
+          key={card.id}
+          id={card.id}
+          title={card.title}
+          onDelete={handleDeleteCard}
+          onUpdate={handleUpdateCard}
+        />
       ))}
     </div>
   );

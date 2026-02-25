@@ -110,3 +110,26 @@ body {
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
+.drag-handle {
+  cursor: grab;
+  margin-right: 6px;
+  user-select: none;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.card-actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
